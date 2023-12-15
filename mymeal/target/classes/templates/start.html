@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu List</title>
+
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .minus, .plus {
+            cursor: pointer;
+            margin: 0 5px;
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .num {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #bookOrderBtn {
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Menu List</h2>
+
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    
+                    <th>Category</th>
+                    <th>No. of Plates</th>
+                </tr>
+            </thead>
+            <tbody th:if="${menulist != null}">
+                <tr th:each="item : ${menulist}">
+                    
+                    <td th:text="${item.itemName}"></td>
+                    <td th:text="${item.price}" class="price"></td>
+                  
+                    <td th:text="${item.category}"></td>
+                    <td>
+                        <div class="wrapper">
+                            <span class="minus">-</span>
+                            <span class="num">00</span>
+                            <span class="plus">+</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Total Order Cost -->
+        <label>Total Order Cost: $<span id="totalOrderCost">0.00</span></label>
+
+        <!-- Book Order Button -->
+        <button id="bookOrderBtn" onclick="bookOrder()" class="btn btn-primary" disabled>Book Order</button>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js scripts (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const plus = document.querySelectorAll(".plus");
+        const minus = document.querySelectorAll(".minus");
+        const num = document.querySelectorAll(".num");
+        const totalOrderCostSpan = document.getElementById("totalOrderCost");
+        const bookOrderBtn = document.getElementById("bookOrderBtn");
+        const prices = document.querySelectorAll(".price");
+
+        // Add event listeners to all plus and minus buttons
+        plus.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                updateQuantity(index, 1);
+            });
+        });
+
+        minus.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                updateQuantity(index, -1);
+            });
+        });
+
+        function updateQuantity(index, change) {
+            let quantity = parseInt(num[index].innerText) + change;
+            quantity = quantity < 0 ? 0 : quantity;
+            num[index].innerText = quantity;
+
+            // Calculate total order cost
+            calculateTotalOrderCost();
+
+            // Check if any quantity is greater than 0 to enable/disable the button
+            const enableButton = Array.from(num).some(el => parseInt(el.innerText) > 0);
+            bookOrderBtn.disabled = !enableButton;
+        }
+
+        function calculateTotalOrderCost() {
+            let totalOrderCost = 0;
+            num.forEach((quantity, index) => {
+                totalOrderCost += parseInt(quantity.innerText) * parseFloat(prices[index].innerText);
+            });
+
+            // Update the total order cost display
+            totalOrderCostSpan.innerText = totalOrderCost.toFixed(2);
+        }
+
+        // Function to handle the book order button click
+        function bookOrder() {
+            // You can add logic here to handle the booking order action
+            console.log("Order booked!");
+        }
+    </script>
+</body>
+</html>

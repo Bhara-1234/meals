@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu List</title>
+</head>
+<body>
+    <h2>Menu List</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Timing</th>
+            </tr>
+        </thead>
+        <tbody th:if="${menulist != null}">
+            <tr th:each="item : ${menulist}">
+                <td th:text="${item.itemId}"></td>
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${item.category}"></td>
+                <td th:text="${item.timing}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,8 @@
+com\mymeal\controllers\MealListController.class
+com\mymeal\MymealApplication.class
+com\mymeal\ServletInitializer.class
+com\mymeal\daos\MenuItemsDao.class
+com\mymeal\services\MealListServiceImpl.class
+com\mymeal\daos\MenuItemsDaoImpl.class
+com\mymeal\services\MealListService.class
+com\mymeal\models\MenuItems.class
